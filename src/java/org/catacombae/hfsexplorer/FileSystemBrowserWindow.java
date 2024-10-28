@@ -17,6 +17,8 @@
 
 package org.catacombae.hfsexplorer;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -549,9 +551,8 @@ public class FileSystemBrowserWindow extends HFSExplorerJFrame {
             /* @Override */
             public void actionPerformed(ActionEvent ae) {
                 try {
-                    URL url = new URL(FileSystemBrowserWindow.class.
-                            getProtectionDomain().getCodeSource().getLocation(),
-                            "../doc/html/index.html");
+                    URL url = Urls.create(FileSystemBrowserWindow.class.
+                            getProtectionDomain().getCodeSource().getLocation(), "../doc/html/index.html", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     HelpBrowserPanel.showHelpBrowserWindow("HFSExplorer help " +
                             "browser", url);
                 } catch(MalformedURLException ex) {
@@ -570,7 +571,7 @@ public class FileSystemBrowserWindow extends HFSExplorerJFrame {
                 for(String s : VERSION_INFO_DICTIONARY) {
                     try {
                         System.out.println("Retrieving version info from " + s + "...");
-                        infoDictStream = new URL(s).openStream();
+                        infoDictStream = Urls.create(s, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
                         SimpleDictionaryParser sdp = new SimpleDictionaryParser(infoDictStream);
                         String dictVersion = sdp.getValue("Version");
                         long dictBuildNumber = Long.parseLong(sdp.getValue("Build"));
