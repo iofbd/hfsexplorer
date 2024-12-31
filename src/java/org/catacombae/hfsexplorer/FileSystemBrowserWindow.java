@@ -17,6 +17,7 @@
 
 package org.catacombae.hfsexplorer;
 
+import io.github.pixee.security.SystemCommand;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -1330,7 +1331,7 @@ public class FileSystemBrowserWindow extends HFSExplorerJFrame {
 // 				for(String s : finalCommand)
 // 				    System.err.print(" \"" + s + "\"");
 // 				System.err.println(" in directory \"" + tempDir + "\"");
-                            Process p = Runtime.getRuntime().exec(finalCommand, null, tempDir);
+                            Process p = SystemCommand.runCommand(Runtime.getRuntime(), finalCommand, null, tempDir);
                             fopFrame.dispose();
                         } catch(Exception e) {
                             e.printStackTrace();
@@ -1405,7 +1406,7 @@ public class FileSystemBrowserWindow extends HFSExplorerJFrame {
 // 				for(String s : finalCommand)
 // 				    System.err.print(" \"" + s + "\"");
 // 				System.err.println(" in directory \"" + tempDir + "\"");
-                            Process p = Runtime.getRuntime().exec(finalCommand, null, tempDir);
+                            Process p = SystemCommand.runCommand(Runtime.getRuntime(), finalCommand, null, tempDir);
                             fopFrame.dispose();
                         } catch(Exception e) {
                             e.printStackTrace();
