@@ -17,6 +17,7 @@
 
 package org.catacombae.hfsexplorer.testcode;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -94,7 +95,7 @@ public class RepairMyBackupGPT {
 		    String s = "";
 		    while(!(s.equals("y") || s.equals("n"))) {
 			System.out.print("Continue without backup (y/n)? ");
-			s = stdin.readLine();
+			s = BoundedLineReader.readLine(stdin, 5_000_000);
 		    }
 		    if(s.equals("n")) {
 			System.exit(-1);
@@ -136,15 +137,15 @@ public class RepairMyBackupGPT {
 	    System.out.println("The backup table is now ready to be written down to disk.");
 
 	    System.out.print("Press enter to view the original table:");
-	    stdin.readLine();
+	    BoundedLineReader.readLine(stdin, 5_000_000);
 	    originalGpt.printBackupFields(System.out, "");
 
 	    System.out.print("Press enter to view the modified table:");
-	    stdin.readLine();
+	    BoundedLineReader.readLine(stdin, 5_000_000);
 	    gpt.printBackupFields(System.out, "");
 
 	    System.out.print("If you want to write this table to disk, type \"yes\" here: ");
-	    String answer = stdin.readLine();
+	    String answer = BoundedLineReader.readLine(stdin, 5_000_000);
 	    if(answer.equals("yes")) {
 		System.out.print("Getting binary data for backup table...");
 		byte[] newBackupGPT = gpt.getBackupTableBytes();
@@ -174,7 +175,7 @@ public class RepairMyBackupGPT {
 		    String s = "";
 		    while(!(s.equals("y") || s.equals("n"))) {
 			System.out.print("Proceed anyway (y/n)? ");
-			s = stdin.readLine();
+			s = BoundedLineReader.readLine(stdin, 5_000_000);
 		    }
 		    if(s.equals("n")) {
 			System.exit(-1);
@@ -190,7 +191,7 @@ public class RepairMyBackupGPT {
 		    String s = "";
 		    while(!(s.equals("y") || s.equals("n"))) {
 			System.out.print("Proceed anyway (y/n)? ");
-			s = stdin.readLine();
+			s = BoundedLineReader.readLine(stdin, 5_000_000);
 		    }
 		    if(s.equals("n")) {
 			System.exit(-1);
