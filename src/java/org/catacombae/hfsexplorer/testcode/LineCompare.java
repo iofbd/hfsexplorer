@@ -17,6 +17,7 @@
 
 package org.catacombae.hfsexplorer.testcode;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -55,10 +56,10 @@ public class LineCompare {
 	    ++lineNumber;
 	    line1 = "";
 	    while(line1 != null && line1.trim().equals(""))
-		line1 = file1.readLine();
+		line1 = BoundedLineReader.readLine(file1, 5_000_000);
 	    line2 = "";
 	    while(line2 != null && line2.trim().equals(""))
-		line2 = file2.readLine();
+		line2 = BoundedLineReader.readLine(file2, 5_000_000);
 	}
 	System.out.println("Files are equal (ignoring empty lines and different line endings).");
     }

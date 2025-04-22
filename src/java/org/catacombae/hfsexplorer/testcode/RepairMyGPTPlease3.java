@@ -17,6 +17,7 @@
 
 package org.catacombae.hfsexplorer.testcode;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -204,15 +205,15 @@ public class RepairMyGPTPlease3 {
 	    System.out.println("The table is now ready to be written down to disk.");
 
 	    System.out.print("Press enter to view the original table:");
-	    stdin.readLine();
+	    BoundedLineReader.readLine(stdin, 5_000_000);
 	    originalGpt.print(System.out, "");
 
 	    System.out.print("Press enter to view the modified table:");
-	    stdin.readLine();
+	    BoundedLineReader.readLine(stdin, 5_000_000);
 	    gpt.print(System.out, "");
 
 	    System.out.print("If you want to write this table to disk, type \"yes\" here: ");
-	    String answer = stdin.readLine();
+	    String answer = BoundedLineReader.readLine(stdin, 5_000_000);
 	    if(answer.equals("yes")) {
 		System.out.print("Getting binary data for primary and backup tables...");
 		byte[] newPrimaryGPT = gpt.getPrimaryTableBytes();
