@@ -17,6 +17,7 @@
 
 package org.catacombae.hfsexplorer;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +35,7 @@ public class SimpleDictionaryParser {
     public SimpleDictionaryParser(InputStream is) {
 	try {
 	    BufferedReader buf = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-	    String firstLine = buf.readLine();
+	    String firstLine = BoundedLineReader.readLine(buf, 5_000_000);
 	    int colonIndex = firstLine.indexOf(":");
 	    String spdTag = firstLine.substring(0, firstLine.indexOf(":"));
 	    String spdVersion = firstLine.substring(firstLine.indexOf(":")+1).trim();
@@ -42,14 +43,14 @@ public class SimpleDictionaryParser {
 	    if(!(spdTag.equals(SPD_HEADER) && spdVersion.equals("1.0")))
 		throw new RuntimeException("Invalid SimpleDictionary data.");
 
-	    String currentLine = buf.readLine();
+	    String currentLine = BoundedLineReader.readLine(buf, 5_000_000);
 	    while(currentLine != null) {
 		colonIndex = currentLine.indexOf(":");
 		String key = currentLine.substring(0, currentLine.indexOf(":"));
 		String value = currentLine.substring(currentLine.indexOf(":")+1).trim();
 		//System.err.println("key: \"" + key + "\" value: \"" + value + "\"");
 		dictionaryTable.put(key, value);
-		currentLine = buf.readLine();
+		currentLine = BoundedLineReader.readLine(buf, 5_000_000);
 	    }
 	} catch(IOException ioe) { throw new RuntimeException(ioe); }
     }

@@ -17,6 +17,7 @@
 
 package org.catacombae.storage.io.win32;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import org.catacombae.io.AbstractFileStream;
@@ -355,10 +356,10 @@ public class ReadableWin32FileStream implements ReadableRandomAccessStream,
             }
             else if(args[1].equals("eject")) {
                 System.out.print("Press any key to eject media...");
-                stdin.readLine();
+                BoundedLineReader.readLine(stdin, 5_000_000);
                 wllio1.ejectMedia();
                 System.out.print("Press any key to load media...");
-                stdin.readLine();
+                BoundedLineReader.readLine(stdin, 5_000_000);
                 wllio1.loadMedia();
             }
             else

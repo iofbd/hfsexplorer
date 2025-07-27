@@ -17,6 +17,7 @@
 
 package org.catacombae.hfsexplorer;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -1052,9 +1053,9 @@ public abstract class SelectDeviceDialog extends JDialog {
                 }
 
                 /* Skip first line, which is just a description. */
-                r.readLine();
+                BoundedLineReader.readLine(r, 5_000_000);
 
-                for(String curLine; (curLine = r.readLine()) != null; ) {
+                for(String curLine; (curLine = BoundedLineReader.readLine(r, 5_000_000)) != null; ) {
                     if(curLine.trim().length() == 0) {
                         /* Ignore whitespace. */
                         continue;
@@ -1283,7 +1284,7 @@ public abstract class SelectDeviceDialog extends JDialog {
                 sysctlStdoutReader =
                         new BufferedReader(new InputStreamReader(
                         sysctlProcess.getInputStream(), "UTF-8"));
-                String disksString = sysctlStdoutReader.readLine();
+                String disksString = BoundedLineReader.readLine(sysctlStdoutReader, 5_000_000);
 
                 int retval = sysctlProcess.waitFor();
                 if(retval != 0) {

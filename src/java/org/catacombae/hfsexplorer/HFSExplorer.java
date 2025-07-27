@@ -17,6 +17,7 @@
 
 package org.catacombae.hfsexplorer;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -152,7 +153,7 @@ public class HFSExplorer {
 		else break;
 	    }
 	    print("Which partition do you wish to explore [0-" + (partitions.size()-1) + "]? ");
-	    int partNum = Integer.parseInt(stdin.readLine());
+	    int partNum = Integer.parseInt(BoundedLineReader.readLine(stdin, 5_000_000));
 	    APMPartition chosenPartition = partitions.get(partNum);
 	    String partitionType = chosenPartition.getPmParTypeAsString();
 	    if(!partitionType.trim().equals("Apple_HFS")) {
@@ -513,7 +514,7 @@ public class HFSExplorer {
 
 		String input = null;
 		try {
-		    input = stdIn.readLine().trim();
+		    input = BoundedLineReader.readLine(stdIn, 5_000_000).trim();
 		} catch(IOException ioe) {
 		    ioe.printStackTrace();
 		    return;
